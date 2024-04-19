@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- script: |
+    dotnet build ./bicep/main.bicep
+  displayName: 'Build Bicep templates'
+
+- script: |
+    az group create --name myResourceGroup --location northeurope
+    az deployment group create --resource-group staticweb --template-file ./bicep/main.bicep --parameters ./bicep/parameters.json
+  displayName: 'Deploy Bicep templates'
