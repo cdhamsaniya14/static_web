@@ -29,7 +29,7 @@ steps:
   displayName: 'Install .NET SDK 6.0 if not installed'
 
 - script: |
-    az group create --name staticweb --location West Europe
+    az group create --name staticweb --location westeurope
     az deployment group create --resource-group staticweb --template-file ./bicep/main.bicep --parameters ./bicep/parameters.json
   displayName: 'Deploy Bicep templates'
 
